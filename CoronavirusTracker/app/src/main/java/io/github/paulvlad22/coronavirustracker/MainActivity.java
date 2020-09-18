@@ -14,7 +14,7 @@ import com.squareup.okhttp.*;
 
 
 public class MainActivity extends AppCompatActivity {
-    static Response responseAux;
+    static Response responseAux;// static so it can be accesed in both threads
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         responseAux = client.newCall(request).execute();
                     } catch (Exception e) {
-                        Toast.makeText(MainActivity.this, "Connection to API failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Connection to API failed",
+                                Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }
@@ -74,14 +75,16 @@ public class MainActivity extends AppCompatActivity {
         TextView activeCasesView = findViewById(R.id.activeCasesView);
         TextView criticalCasesView =findViewById(R.id.criticalCasesView);
         TextView recoveredView = findViewById(R.id.recoveredView);
-        //processing received data
+
         try {
+            //processing received data
             JSONObject jsonObject = new JSONObject(response.body().string());
             System.out.println(response.body().string());
             JSONArray jArrAux = jsonObject.getJSONArray("response");
             JSONObject infoObj = jArrAux.getJSONObject(0);
             System.out.println(infoObj);
             JSONObject casesInfo = infoObj.getJSONObject("cases");
+            //starting displaying data into TextViews
             String newCases = casesInfo.get("new").toString().substring(1);
             String activeCases = casesInfo.get("active").toString();
             String criticalCases = casesInfo.get("critical").toString();
@@ -90,10 +93,11 @@ public class MainActivity extends AppCompatActivity {
             activeCasesView.setText("Active Cases : "+activeCases);
             criticalCasesView.setText("Critical Cases : "+criticalCases);
             recoveredView.setText("Recovered : "+recoveredCases);
-            //starting displaying data into TextViews
+
 
         }catch (Exception e){
-            Toast.makeText(MainActivity.this, "Wrong Country Name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Wrong Country Name",
+                    Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
