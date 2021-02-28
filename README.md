@@ -1,6 +1,6 @@
 # CoronavirusTracker
 
-<h3>Android App Development final project.</h3>
+<h3>Android App Development course final project.</h3>
 (Api doesn't work currently)
 
 Mobile app created in Android Studio using Java programming language. The project consisted of three parts: 
